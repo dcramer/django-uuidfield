@@ -13,7 +13,7 @@ class UUIDField(Field):
     # __metaclass__ = models.SubfieldBase
 
     def __init__(self, version=4, node=None, clock_seq=None, namespace=None, name=None, auto=False, *args, **kwargs):
-        assert(version in (1, 3, 4, 5), "UUID version %s is not supported." % (version,))
+        assert version in (1, 3, 4, 5), "UUID version %s is not supported." % (version,)
         self.auto = auto
         self.version = version
         # We store UUIDs in hex format, which is fixed at 32 characters.
