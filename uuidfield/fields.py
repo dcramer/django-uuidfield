@@ -3,6 +3,13 @@ from django.db.models import Field
 
 import uuid
 
+try:
+    # psycopg2 needs us to register the uuid type
+    import psycopg2
+    psycopg2.extras.regster_uuid()
+except ImportError:
+    pass
+
 class UUIDField(Field):
     """
         A field which stores a UUID value in hex format. This may also have
