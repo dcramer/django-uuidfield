@@ -45,7 +45,7 @@ class UUIDField(Field):
             args = ()
         return getattr(uuid, 'uuid%s' % (self.version,))(*args)
 
-    def db_type(self):
+    def db_type(self, connection=None):
         return 'char(%s)' % (self.max_length,)
 
     def pre_save(self, model_instance, add):
