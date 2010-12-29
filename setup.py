@@ -9,6 +9,10 @@ setup(
     author_email='dcramer@gmail.com',
     description='UUIDField in Django',
     url='http://github.com/dcramer/django-uuidfield',
+    zip_safe=False,
+    install_requires=[
+        'uuid',
+    ]
     packages=find_packages(),
     include_package_data=True,
     classifiers=[
