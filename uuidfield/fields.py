@@ -7,7 +7,7 @@ try:
     # psycopg2 needs us to register the uuid type
     import psycopg2
     psycopg2.extras.regster_uuid()
-except ImportError:
+except (ImportError, AttributeError):
     pass
 
 class UUIDField(Field):
@@ -17,6 +17,8 @@ class UUIDField(Field):
         new UUID value (calculated using the UUID1 method). Note that while all
         UUIDs are expected to be unique we enforce this with a DB constraint.
     """
+    # TODO: support UUID types in Postgres
+    # TODO: support binary storage types
     # __metaclass__ = models.SubfieldBase
 
     def __init__(self, version=4, node=None, clock_seq=None, namespace=None, name=None, auto=False, *args, **kwargs):
