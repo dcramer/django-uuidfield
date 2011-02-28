@@ -6,7 +6,7 @@ import uuid
 try:
     # psycopg2 needs us to register the uuid type
     import psycopg2
-    psycopg2.extras.regster_uuid()
+    psycopg2.extras.register_uuid()
 except (ImportError, AttributeError):
     pass
 
