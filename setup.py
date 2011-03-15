@@ -24,6 +24,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'uuid',
+        'django',
     ],
     packages=find_packages(),
     test_suite = 'uuidfield.tests',
