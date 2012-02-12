@@ -8,6 +8,12 @@ if not settings.configured:
     settings.configure(
         DATABASE_ENGINE='django.db.backends.postgresql_psycopg2',
         DATABASE_NAME='uuidfield_test',
+        DATABASES={
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': 'uuidfield_test',
+            }
+        },
         INSTALLED_APPS=[
             'django.contrib.contenttypes',
             'uuidfield',
