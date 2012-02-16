@@ -128,6 +128,6 @@ class UUIDField(Field):
 
 try:
     from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^uuidfield\.fields\.UUIDField"])
+    add_introspection_rules([], [r"^uuidfield\.fields\.UUIDField"])
 except ImportError:
     pass
