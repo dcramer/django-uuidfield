@@ -20,6 +20,6 @@ First you'll need to attach a UUIDField to your class. This acts as a char(32) t
 	class MyModel(models.Model):
 	    uuid = UUIDField(auto=True)
 
-Check out the source for 
+Check out the source for more configuration values.
 
 Enjoy!
