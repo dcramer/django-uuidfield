@@ -1,14 +1,8 @@
 from setuptools import setup, find_packages
-from setuptools.command.test import test
-
-class mytest(test):
-    def run(self, *args, **kwargs):
-        from runtests import runtests
-        runtests()
 
 setup(
     name='django-uuidfield',
-    version='0.3',
+    version='0.4.0',
     author='David Cramer',
     author_email='dcramer@gmail.com',
     description='UUIDField in Django',
@@ -18,9 +12,8 @@ setup(
         'django',
     ],
     packages=find_packages(),
-    test_suite = 'uuidfield.tests',
+    test_suite='runtests.runtests',
     include_package_data=True,
-    cmdclass={"test": mytest},
     classifiers=[
         "Framework :: Django",
         "Intended Audience :: Developers",
