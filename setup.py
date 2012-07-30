@@ -11,6 +11,10 @@ setup(
     install_requires=[
         'django',
     ],
+    tests_require=[
+        'psycopg2',
+        'django-nose',
+    ],
     packages=find_packages(),
     test_suite='runtests.runtests',
     include_package_data=True,
