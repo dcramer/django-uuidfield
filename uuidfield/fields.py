@@ -13,10 +13,19 @@ except (ImportError, AttributeError):
 
 
 class StringUUID(uuid.UUID):
+    def __init__(self, *args, **kwargs):
+        # get around UUID's immutable setter
+        object.__setattr__(self, 'hyphenate', kwargs.pop('hyphenate', False))
+
+        super(StringUUID, self).__init__(*args, **kwargs)
+
     def __unicode__(self):
-        return self.hex
+        return unicode(str(self))
 
     def __str__(self):
+        if self.hyphenate:
+            return super(StringUUID, self).__str__()
+
         return self.hex
 
     def __len__(self):
@@ -34,10 +43,11 @@ class UUIDField(Field):
     __metaclass__ = SubfieldBase
 
     def __init__(self, version=4, node=None, clock_seq=None,
-            namespace=None, name=None, auto=False, *args, **kwargs):
+            namespace=None, name=None, auto=False, hyphenate=False, *args, **kwargs):
         assert version in (1, 3, 4, 5), "UUID version %s is not supported." % version
         self.auto = auto
         self.version = version
+        self.hyphenate = hyphenate
         # We store UUIDs in hex format, which is fixed at 32 characters.
         kwargs['max_length'] = 32
         if auto:
@@ -119,7 +129,7 @@ class UUIDField(Field):
             return None
         # attempt to parse a UUID including cases in which value is a UUID
         # instance already to be able to get our StringUUID in.
-        return StringUUID(smart_unicode(value))
+        return StringUUID(smart_unicode(value), hyphenate=self.hyphenate)
 
     def formfield(self, **kwargs):
         defaults = {
