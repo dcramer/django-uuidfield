@@ -7,6 +7,11 @@ class AutoUUIDField(models.Model):
     uuid = UUIDField(auto=True)
 
 
+class HyphenatedUUIDField(models.Model):
+    uuid = UUIDField(auto=True, hyphenate=True)
+    name = models.CharField(max_length=16)
+
+
 class ManualUUIDField(models.Model):
     uuid = UUIDField(auto=False)
 

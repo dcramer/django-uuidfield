@@ -4,7 +4,7 @@ from django.db import connection, IntegrityError
 from django.test import TestCase
 
 from uuidfield.tests.models import (AutoUUIDField, ManualUUIDField,
-    NamespaceUUIDField, BrokenNamespaceUUIDField)
+    NamespaceUUIDField, BrokenNamespaceUUIDField, HyphenatedUUIDField)
 
 
 class UUIDFieldTestCase(TestCase):
@@ -36,3 +36,20 @@ class UUIDFieldTestCase(TestCase):
     def test_broken_namespace(self):
         self.assertRaises(ValueError, BrokenNamespaceUUIDField.objects.create)
 
+    def test_hyphenated(self):
+        obj = HyphenatedUUIDField.objects.create(name='test')
+        uuid = obj.uuid
+
+        self.assertTrue('-' in unicode(uuid))
+        self.assertTrue('-' in str(uuid))
+
+        self.assertEquals(len(uuid), 36)
+
+        # ensure the hyphens don't affect re-saving object
+        obj.name = 'shoe'
+        obj.save()
+
+        obj = HyphenatedUUIDField.objects.get(uuid=obj.uuid)
+
+        self.assertTrue(obj.uuid, uuid)
+        self.assertTrue(obj.name, 'shoe')
