@@ -108,6 +108,9 @@ class UUIDField(Field):
         """
         if isinstance(value, uuid.UUID):
             return str(value)
+        else:
+            if '-' in value:
+                return value.replace('-', '')
         return value
 
     def value_to_string(self, obj):
