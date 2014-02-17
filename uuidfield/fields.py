@@ -2,7 +2,10 @@ import uuid
 
 from django import forms
 from django.db.models import Field, SubfieldBase
-from django.utils.encoding import smart_unicode
+try:
+    from django.utils.encoding import smart_unicode
+except ImportError:
+    from django.utils.encoding import smart_text as smart_unicode
 
 try:
     # psycopg2 needs us to register the uuid type
