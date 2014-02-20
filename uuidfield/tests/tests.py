@@ -53,3 +53,13 @@ class UUIDFieldTestCase(TestCase):
 
         self.assertTrue(obj.uuid, uuid)
         self.assertTrue(obj.name, 'shoe')
+
+    def test_can_use_hyphenated_uuids_in_filter_and_get(self):
+        obj = AutoUUIDField.objects.create()
+        obj_uuid = uuid.UUID(str(obj.uuid))
+        self.assertTrue('-' in unicode(obj_uuid))
+        self.assertTrue('-' in str(obj_uuid))
+        inserted_obj = AutoUUIDField.objects.get(uuid=obj_uuid)
+        filtered_obj = AutoUUIDField.objects.filter(uuid=obj_uuid)[0]
+        self.assertEqual(inserted_obj.uuid, obj_uuid)
+        self.assertEqual(filtered_obj.uuid, obj_uuid)

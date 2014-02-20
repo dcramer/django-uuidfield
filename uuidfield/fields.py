@@ -107,7 +107,10 @@ class UUIDField(Field):
         Casts uuid.UUID values into the format expected by the back end
         """
         if isinstance(value, uuid.UUID):
-            return str(value)
+            value = str(value)
+        if isinstance(value, str):
+            if '-' in value:
+                return value.replace('-', '')
         return value
 
     def value_to_string(self, obj):
