@@ -33,6 +33,12 @@ def runtests(*test_args, **kwargs):
     if not test_args:
         test_args = ['uuidfield']
 
+    import django
+    try:
+        django.setup()
+    except AttributeError:
+        pass
+
     kwargs.setdefault('interactive', False)
 
     test_runner = NoseTestSuiteRunner(**kwargs)
