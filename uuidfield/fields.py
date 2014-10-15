@@ -48,7 +48,8 @@ class UUIDField(Field):
     def __init__(self, version=4, node=None, clock_seq=None,
                  namespace=None, name=None, auto=False, hyphenate=False,
                  *args, **kwargs):
-        assert version in (1, 3, 4, 5), "UUID version %s is not supported." % version
+        assert version in (1, 3, 4, 5), "UUID version {ver}is not supported."\
+            .format(ver=version)
         self.auto = auto
         self.version = version
         self.hyphenate = hyphenate
