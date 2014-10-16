@@ -46,13 +46,21 @@ class UUIDField(Field):
     __metaclass__ = SubfieldBase
 
     def __init__(self, version=4, node=None, clock_seq=None,
-            namespace=None, name=None, auto=False, hyphenate=False, *args, **kwargs):
-        assert version in (1, 3, 4, 5), "UUID version %s is not supported." % version
+                 namespace=None, name=None, auto=False, hyphenate=False,
+                 *args, **kwargs):
+        assert version in (1, 3, 4, 5), "UUID version {ver}is not supported."\
+            .format(ver=version)
         self.auto = auto
         self.version = version
         self.hyphenate = hyphenate
-        # We store UUIDs in hex format, which is fixed at 32 characters.
-        kwargs['max_length'] = 32
+
+        if hyphenate:
+            # We store UUIDs in string format, which is fixed at 36 characters.
+            kwargs['max_length'] = 36
+        else:
+            # We store UUIDs in hex format, which is fixed at 32 characters.
+            kwargs['max_length'] = 32
+
         if auto:
             # Do not let the user edit UUIDs if they are auto-assigned.
             kwargs['editable'] = False
