@@ -22,9 +22,6 @@ class StringUUID(uuid.UUID):
 
         super(StringUUID, self).__init__(*args, **kwargs)
 
-    def __unicode__(self):
-        return unicode(str(self))
-
     def __str__(self):
         if self.hyphenate:
             return super(StringUUID, self).__str__()
@@ -32,7 +29,7 @@ class StringUUID(uuid.UUID):
         return self.hex
 
     def __len__(self):
-        return len(self.__unicode__())
+        return len(self.__str__())
 
 
 class UUIDField(Field):
@@ -129,7 +126,7 @@ class UUIDField(Field):
         if val is None:
             data = ''
         else:
-            data = unicode(val)
+            data = str(val)
         return data
 
     def to_python(self, value):
