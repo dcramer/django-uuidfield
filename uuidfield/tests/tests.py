@@ -33,6 +33,20 @@ class UUIDFieldTestCase(TestCase):
         self.assertTrue(isinstance(obj.uuid, uuid.UUID))
         self.assertEquals(obj.uuid.version, 5)
 
+    def test_long_uuid(self):
+        obj = AutoUUIDField.objects.create()
+        invalid_uuid = str(obj.uuid) + "1"
+        self.assertRaises(ValueError, AutoUUIDField.objects.get, uuid=invalid_uuid)
+        q = AutoUUIDField.objects.filter(uuid=invalid_uuid)
+        self.assertRaises(ValueError, list, q)
+
+    def test_short_uuid(self):
+        obj = AutoUUIDField.objects.create()
+        invalid_uuid = str(obj.uuid)[:-1]
+        self.assertRaises(ValueError, AutoUUIDField.objects.get, uuid=invalid_uuid)
+        q = AutoUUIDField.objects.filter(uuid=invalid_uuid)
+        self.assertRaises(ValueError, list, q)
+
     def test_broken_namespace(self):
         self.assertRaises(ValueError, BrokenNamespaceUUIDField.objects.create)
 
