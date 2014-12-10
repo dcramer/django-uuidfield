@@ -119,8 +119,7 @@ class UUIDField(Field):
         if isinstance(value, str):
             if '-' in value:
                 value = value.replace('-', '')
-        if value and len(value) != 32:
-            raise ValueError('badly formed hexadecimal UUID string')
+            uuid.UUID(value) # raises ValueError with invalid UUID format
         return value
 
     def value_to_string(self, obj):
