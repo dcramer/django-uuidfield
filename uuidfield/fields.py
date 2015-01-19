@@ -69,6 +69,31 @@ class UUIDField(Field):
             self.namespace, self.name = namespace, name
         super(UUIDField, self).__init__(*args, **kwargs)
 
+    def deconstruct(self):
+        name, path, args, kwargs = super(UUIDField, self).deconstruct()
+        del kwargs['max_length']
+
+        if self.auto:
+            kwargs.pop('editable')
+            kwargs.pop('blank')
+            kwargs.pop('unique')
+            kwargs['auto'] = True
+
+        if self.version != 4:
+            kwargs['version'] = self.version
+        if self.hyphenate:
+            kwargs['hyphenate'] = self.hyphenate
+        if hasattr(self, 'node') and self.node is not None:
+            kwargs['node'] = self.node
+        if hasattr(self, 'clock_seq') and self.clock_seq is not None:
+            kwargs['clock_seq'] = self.clock_seq
+        if hasattr(self, 'namespace') and self.namespace is not None:
+            kwargs['namespace'] = self.namespace
+        if hasattr(self, 'name') and self.name is not None:
+            kwargs['name'] = self.name
+
+        return name, path, args, kwargs
+
     def _create_uuid(self):
         if self.version == 1:
             args = (self.node, self.clock_seq)
