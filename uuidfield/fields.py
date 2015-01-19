@@ -118,7 +118,8 @@ class UUIDField(Field):
             value = str(value)
         if isinstance(value, str):
             if '-' in value:
-                return value.replace('-', '')
+                value = value.replace('-', '')
+            uuid.UUID(value) # raises ValueError with invalid UUID format
         return value
 
     def value_to_string(self, obj):
